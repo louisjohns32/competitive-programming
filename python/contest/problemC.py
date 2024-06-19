@@ -5,37 +5,58 @@ res = []
 
 for _ in range(tests):
     n = int(sys.stdin.readline().rstrip())
-    original_list = sys.stdin.readline().rstrip().split(" ")
-    found_list = sys.stdin.readline().rstrip().split(" ")
-    m = int(sys.stdin.readline().rstrip())
-    modifiers = sys.stdin.readline().rstrip().split(" ")
+    nums = sys.stdin.readline().rstrip().split(" ")
+    ptotal = 0
+    cptotal = 0
+    ntotal = 0
+    cntotal = 0
+    val = False
+    for i,num in enumerate(nums):
+        try:
+            if abs(ptotal + int(num)) == (ptotal + int(num)):
+               cptotal += 1
+            if abs(ntotal + int(num)) == (ntotal + int(num)):
+               cntotal += 1
+            if(int(nums[i+1]) < 0):
+                ptotal += int(num)
+                
+                ntotal += int(num)
+                val = False
+                continue
+            # next is positive
+            ptotal = abs(ptotal + int(num))
+            
+            
+            if(abs(ntotal + int(num)) > ptotal):
+                val = True
+                ptotal = abs(ntotal + int(num))
+                cptotal = cntotal
+                
 
-    # i know the resulting array, as well 
-    # as the values which were assigned to an index in the original array
+            ntotal += int(num)
 
-    # essentially its asking: 
-    # are there n - m matches between modifiers and original list
-
-    # note that if m = n, we could reach any possible list from the original, no matter the values
+            val = False
+            
 
 
-    matches = 0
-    hash_map = {i : [] for i in set(modifiers)} # modifier value -> indices it belongs at in original lsit
-    for i, value in enumerate(original_list):
-        if value == found_list[i]:
-            matches+=1
-        if value in hash_map:
-            hash_map[value].append(i)
+            
+        except:
+            ptotal = abs(ptotal + int(num))
+            ntotal = abs(ntotal + int(num))
+    
+    if(ntotal > ptotal):
+        res.append(2**cntotal)
+    else:
+        if(not val and ntotal == ptotal):
+            res.append(2**cptotal + 2**cntotal)
+        else:
+            res.append(2**cptotal)
+    
         
-        
-    for i, value in enumerate(modifiers):
-        # look for mismatch to replace
-
     
+   
     
-    
-    
-
-
 for i in res:
     print(i, file=sys.stdout)
+
+
