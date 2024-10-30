@@ -1,21 +1,26 @@
 import sys
+import math
 
 tests = int(sys.stdin.readline())
 res = []
 
+chars = ["a", "e", "i", "o", "u"]
+
 for _ in range(tests):
     n = int(sys.stdin.readline().rstrip())
-    nums = sys.stdin.readline().rstrip().split(" ")
+    ans = ""
 
-    if int(nums[0]) - int(nums[-1]) == 0:
-        res.append("NO")
-    else:
-        res.append("YES")
-        res.append(("R"*(n-2) + "B" + "R"))
+    numChars =  math.floor(n/5)
+    remaining = n%5
 
-
-   
+    for i, char in enumerate(chars):
+        if remaining > 0:
+            remaining -=1
+            ans += char * (numChars + 1)
+        else:
+            ans+= char * numChars
     
+    res.append(ans)
 
 for i in res:
     print(i, file=sys.stdout)
